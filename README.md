@@ -1,10 +1,10 @@
-# Smart Traffic Monitoring and Vehicle Counting System
+# Smart Traffic Monitoring and Vehicle Counting System using YOLOv8 and OpenCV
 
 ## Project Overview
 
-The Smart Traffic Monitoring and Vehicle Counting System is a computer vision application developed using Python and OpenCV. The system processes a traffic video, detects moving vehicles, tracks them across video frames, counts vehicles crossing a predefined counting line, and generates traffic statistics.
+The Smart Traffic Monitoring and Vehicle Counting System is a computer vision application developed using Python, OpenCV, and YOLOv8. The system processes traffic videos, detects vehicles, tracks their movement across frames, counts vehicles crossing a predefined line, and generates detailed traffic analytics.
 
-This project demonstrates the practical application of image processing, object detection, object tracking, and traffic analytics using OpenCV.
+Unlike traditional contour-based methods, this project uses YOLOv8 object detection to accurately identify vehicles such as cars, buses, trucks, and motorcycles, resulting in improved detection accuracy and reduced false positives.
 
 ---
 
@@ -12,14 +12,14 @@ This project demonstrates the practical application of image processing, object 
 
 The objective of this project is to:
 
-* Detect moving vehicles from a traffic video.
-* Track vehicles across consecutive frames.
+* Detect vehicles from traffic video footage.
+* Track vehicles across multiple frames.
 * Assign unique IDs to detected vehicles.
-* Count vehicles only when they cross a predefined counting line.
-* Count vehicles based on direction (Incoming and Outgoing).
-* Generate useful traffic statistics.
-* Save the processed video with annotations.
-* Export results in JSON format.
+* Count vehicles crossing a counting line.
+* Count vehicles based on travel direction.
+* Generate traffic statistics and analytics.
+* Save processed video with annotations.
+* Export traffic reports in JSON format.
 
 ---
 
@@ -28,6 +28,7 @@ The objective of this project is to:
 * Python 3
 * OpenCV
 * NumPy
+* YOLOv8 (Ultralytics)
 * JSON
 
 ---
@@ -60,27 +61,29 @@ vehicle_count/
 
 ### Vehicle Detection
 
-* Background subtraction using MOG2.
-* Morphological operations for noise reduction.
-* Contour detection for identifying moving vehicles.
-* Bounding box generation around detected vehicles.
+* YOLOv8 object detection model.
+* Detects:
+
+  * Cars
+  * Motorcycles
+  * Buses
+  * Trucks
+* Generates accurate bounding boxes.
+* Reduces false detections caused by shadows and road markings.
 
 ### Vehicle Tracking
 
-* Centroid-based vehicle tracking.
+* Centroid-based tracking.
 * Unique vehicle ID assignment.
-* Distance-based matching between consecutive frames.
+* Distance-based object matching.
 * Vehicle center point visualization.
 
 ### Vehicle Counting
 
-* Counting line drawn on the road.
-* Vehicles counted only when crossing the line.
-* Prevention of duplicate counting.
-* Direction-based counting:
-
-  * Incoming Vehicles
-  * Outgoing Vehicles
+* Counts vehicles only when they cross the counting line.
+* Prevents duplicate counting.
+* Supports incoming and outgoing vehicle counting.
+* Uses tracked vehicle IDs for accurate counting.
 
 ### Real-Time Analytics
 
@@ -89,9 +92,9 @@ Displays:
 * Total Vehicle Count
 * Incoming Vehicle Count
 * Outgoing Vehicle Count
+* Active Vehicle Count
 * Total Detections
-* Active Vehicles
-* Frames Per Second (FPS)
+* FPS (Frames Per Second)
 
 ### Reporting
 
@@ -109,13 +112,13 @@ Generates a JSON report containing:
 
 ## Installation
 
-### Create Virtual Environment
+### Step 1: Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### Activate Virtual Environment
+### Step 2: Activate Virtual Environment
 
 Windows:
 
@@ -123,7 +126,7 @@ Windows:
 venv\Scripts\activate
 ```
 
-### Install Dependencies
+### Step 3: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -133,18 +136,19 @@ pip install -r requirements.txt
 
 ## Requirements
 
-requirements.txt
+Create a file named `requirements.txt` with:
 
 ```text
-opencv-python==4.13.0.92
-numpy==2.3.0
+opencv-python
+numpy
+ultralytics
 ```
 
 ---
 
 ## Running the Project
 
-Navigate to the project directory and run:
+Navigate to the project directory and execute:
 
 ```bash
 python src/main.py
@@ -152,24 +156,40 @@ python src/main.py
 
 ---
 
+## Working Principle
+
+1. Read traffic video frame by frame.
+2. Use YOLOv8 to detect vehicles.
+3. Generate bounding boxes around detected vehicles.
+4. Calculate vehicle center points.
+5. Assign unique IDs using centroid tracking.
+6. Track vehicles across consecutive frames.
+7. Detect line crossing events.
+8. Determine vehicle direction (Incoming or Outgoing).
+9. Display real-time analytics.
+10. Save processed video.
+11. Generate JSON traffic report.
+
+---
+
 ## Output
 
 ### Processed Video
 
-The output video contains:
+The processed video contains:
 
 * Vehicle Bounding Boxes
 * Vehicle IDs
 * Vehicle Center Points
 * Counting Line
-* Incoming and Outgoing Counts
+* Total Vehicle Count
+* Incoming Count
+* Outgoing Count
+* Active Vehicle Count
 * Total Detections
-* Active Vehicles
 * FPS Display
 
-### JSON Report
-
-Example:
+### Sample JSON Report
 
 ```json
 {
@@ -185,51 +205,49 @@ Example:
 
 ---
 
-## Working Principle
-
-1. Read the traffic video frame by frame.
-2. Apply background subtraction to identify moving objects.
-3. Perform image preprocessing and noise removal.
-4. Detect contours corresponding to vehicles.
-5. Draw bounding boxes around detected vehicles.
-6. Calculate vehicle centroids.
-7. Assign unique IDs to vehicles.
-8. Track vehicles across frames using distance-based matching.
-9. Count vehicles when they cross the counting line.
-10. Determine vehicle direction (incoming or outgoing).
-11. Display real-time traffic analytics.
-12. Save processed video and generate JSON report.
-
----
-
 ## Improvements Implemented
 
-The following enhancements were added:
+The following improvements were added compared to the basic OpenCV implementation:
 
+* YOLOv8 Vehicle Detection
+* Vehicle Classification (Car, Bus, Truck, Motorcycle)
+* Centroid-Based Vehicle Tracking
 * Unique Vehicle IDs
-* Distance-Based Vehicle Tracking
+* Distance-Based Matching
 * Direction-Based Counting
-* Improved Contour Filtering
-* Background Subtractor Optimization
+* Improved Counting Accuracy
 * Vehicle Center Visualization
 * FPS Monitoring
 * Active Vehicle Monitoring
-* Rich Traffic Analytics
-* Enhanced JSON Reporting
+* Enhanced Traffic Analytics
+* JSON Report Generation
+
+---
+
+## Advantages
+
+* Higher detection accuracy than contour-based methods.
+* Reduced false detections from shadows and noise.
+* Better handling of closely spaced vehicles.
+* Supports multiple vehicle types.
+* Generates detailed traffic analytics.
+* Scalable for real-world traffic monitoring applications.
 
 ---
 
 ## Future Enhancements
 
-* Vehicle Classification (Car, Bus, Truck, Bike)
 * Vehicle Speed Estimation
-* Traffic Density Charts
+* DeepSORT Tracking Integration
+* Multi-Lane Vehicle Analysis
+* Traffic Density Graphs
 * Streamlit Dashboard
-* Deep Learning Based Detection (YOLO)
-* Multi-Lane Traffic Analysis
+* Real-Time CCTV Monitoring
+* Vehicle Type Statistics
+* Cloud-Based Analytics
 
 ---
 
 ## Conclusion
 
-The Smart Traffic Monitoring and Vehicle Counting System successfully detects, tracks, and counts vehicles from traffic video footage. The system provides real-time traffic analytics and generates detailed reports, making it a practical demonstration of computer vision techniques applied to traffic monitoring.
+The Smart Traffic Monitoring and Vehicle Counting System successfully combines YOLOv8 object detection with OpenCV-based tracking and analytics to provide an accurate and efficient traffic monitoring solution. The system detects, tracks, and counts vehicles while generating detailed traffic statistics and reports, demonstrating the practical application of computer vision in intelligent transportation systems.

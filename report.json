@@ -1,9 +1,9 @@
 {
     "video_name": "traffic.mp4",
-    "total_vehicles_detected": 21949,
-    "total_vehicles_counted": 62,
-    "incoming_vehicles": 36,
-    "outgoing_vehicles": 26,
-    "vehicles_per_minute": 66.25,
-    "processing_time_seconds": 56.15
+    "total_vehicles_detected": 9888,
+    "total_vehicles_counted": 32,
+    "incoming_vehicles": 5,
+    "outgoing_vehicles": 27,
+    "vehicles_per_minute": 15.04,
+    "processing_time_seconds": 127.69
 }
